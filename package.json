@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-tag-manager",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "An ember-cli addon to manage third-party JavaScript tags and tracking codes.",
   "directories": {
     "doc": "doc",
