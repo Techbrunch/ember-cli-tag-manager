@@ -37,19 +37,58 @@ module.exports = {
           '\tga("create", "' + appConfig.APP.GOOGLE_TRACKING_ID + '", "auto");\n';
 
         if(appConfig.APP.GOOGLE_REMARKETING) {
-          tagManager += '\tga("require", "displayfeatures")\n';
+          tagManager += '\tga("require", "displayfeatures");\n';
         }
 
         if(appConfig.APP.GOOGLE_ECOMMERCE) {
-          tagManager += '\tga("require", "ecommerce")\n';
+          tagManager += '\tga("require", "ecommerce");\n';
         }
 
         if(appConfig.APP.GOOGLE_ENHANCED_ECOMMERCE) {
-          tagManager += '\tga("require", "ec")\n';
+          tagManager += '\tga("require", "ec");\n';
         }
 
-        tagManager += '\tga("send", "pageview");\n' +
-          '</script>\n';
+        tagManager += '</script>\n';
+      }
+
+      if(appConfig.APP.FACEBOOK_CUSTOM_AUDIENCES_TRACKING_ID) {
+        tagManager += '<script type="text/javascript">\n' +
+          '\t!function(f,b,e,v,n,t,s) {\n' +
+          '\t\tif(f.fbq) return; n = f.fbq = function() {\n' +
+          '\t\t\tn.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)\n' +
+          '\t\t};\n' +
+          '\t\tif(!f._fbq) f._fbq=n; n.push = n; n.loaded = !0; n.version = "2.0"; n.queue=[];\n' +
+          '\t\tt = b.createElement(e); t.async = !0; t.src = v;\n' +
+          '\t\ts = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t,s);\n' +
+          '\t}(window, document, "script", "//connect.facebook.net/en_US/fbevents.js");\n' +
+          '\tfbq("init", "' + appConfig.APP.FACEBOOK_CUSTOM_AUDIENCES_TRACKING_ID + '");' +
+          '</script>\n' +
+          '<noscript>\n' +
+          '\t<img height="1" width="1" alt="" style="display:none" src=' +
+          '"https://www.facebook.com/tr?id=' + appConfig.APP.FACEBOOK_CUSTOM_AUDIENCES_TRACKING_ID +
+          '&ev=PageView&noscript=1"/>\n' +
+          '</noscript>\n';
+      }
+
+      if(appConfig.APP.FACEBOOK_CONVERSION_TRACKING_ID) {
+        tagManager += '<script type="text/javascript">\n' +
+          '\t(function() {\n' +
+          '\t\tvar _fbq = window._fbq || (window._fbq = []);\n' +
+          '\t\tif(!_fbq.loaded) {\n' +
+          '\t\t\tvar fbds = document.createElement("script");\n' +
+          '\t\t\tfbds.type = "text/javascript"; fbds.async = true;\n' +
+          '\t\t\tfbds.src = "//connect.facebook.net/en_US/fbds.js";\n' +
+          '\t\t\tvar s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(fbds, s);\n' +
+          '\t\t\t_fbq.loaded = true;\n' +
+          '\t\t}\n' +
+          '\t})();\n' +
+          '\twindow._fbq = window._fbq || [];\n' +
+          '\twindow._fbq.push(["track", "' + appConfig.APP.FACEBOOK_CONVERSION_TRACKING_ID + '", {}]);\n' +
+          '</script>\n' +
+          '<noscript>\n' +
+          '\t<img height="1" width="1" alt="" style="display:none" src=' +
+          '"https://www.facebook.com/tr?ev=' + appConfig.APP.FACEBOOK_CONVERSION_TRACKING_ID + '&amp;noscript=1>\n' +
+          '</noscript>\n';
       }
 
       return tagManager;
@@ -59,22 +98,8 @@ module.exports = {
       var tagManager = '';
 
       if(appConfig.APP.GOOGLE_ADWORDS_CONVERSION_TRACKING_ID) {
-        tagManager += '<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion_async.js"></script>\n' +
-          '<noscript>\n' +
-          '\t<div style="display:inline;">\n' +
-          '\t\t<img height="1" width="1" style="border-style:none;" alt="" ' +
-          'src="//www.googleadservices.com/pagead/conversion/' + appConfig.APP.GOOGLE_ADWORDS_CONVERSION_TRACKING_ID +
-          '/?guid=ON&amp;script=0"/>\n' +
-          '\t</div>\n' +
-          '</noscript>\n' +
-          '<script type="text/javascript">\n' +
-          '/* <![CDATA[ */\n' +
-          '\twindow.google_trackConversion({\n' +
-          '\t\tgoogle_conversion_id: ' + appConfig.APP.GOOGLE_ADWORDS_CONVERSION_TRACKING_ID + ',\n' +
-          '\t\tgoogle_remarketing_only: true\n' +
-          '\t});\n' +
-          '/* ]]> */\n' +
-          '</script>\n';
+        tagManager += '<script type="text/javascript" src=' +
+          '"//www.googleadservices.com/pagead/conversion_async.js"></script>\n';
       }
 
       if(appConfig.APP.BING_TRACKING_ID) {
@@ -91,28 +116,6 @@ module.exports = {
           '\t\t}, i = d.getElementsByTagName(t)[0], i.parentNode.insertBefore(n, i)\n' +
           '\t})(window, document, "script", "//bat.bing.com/bat.js", "uetq");\n' +
           '</script>\n';
-      }
-
-      if(appConfig.APP.FACEBOOK_TRACKING_ID) {
-        tagManager += '<script type="text/javascript">\n' +
-          '\t(function() {\n' +
-          '\t\tvar _fbq = window._fbq || (window._fbq = []);\n' +
-          '\t\tif(!_fbq.loaded) {\n' +
-          '\t\t\tvar fbds = document.createElement("script");\n' +
-          '\t\t\tfbds.type = "text/javascript"; fbds.async = true;\n' +
-          '\t\t\tfbds.src = "//connect.facebook.net/en_US/fbds.js";\n' +
-          '\t\t\tvar s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(fbds, s);\n' +
-          '\t\t\t_fbq.loaded = true;\n' +
-          '\t\t}\n' +
-          '\t\t_fbq.push(["addPixelId", "' + appConfig.APP.FACEBOOK_TRACKING_ID + '"]);\n' +
-          '\t})();\n' +
-          '\twindow._fbq = window._fbq || [];\n' +
-          '\twindow._fbq.push(["track", "PixelInitialized", {}]);\n' +
-          '</script>\n' +
-          '<noscript>\n' +
-          '\t<img height="1" width="1" alt="" style="display:none" src=' +
-          '"https://www.facebook.com/tr?id=' + appConfig.APP.FACEBOOK_TRACKING_ID + '&amp;ev=PixelInitialized">\n' +
-          '</noscript>\n';
       }
 
       if(appConfig.APP.FACEBOOK_APP_ID) {
@@ -154,8 +157,8 @@ module.exports = {
       }
 
       if(appConfig.APP.OPTIMIZELY_TRACKING_ID) {
-        tagManager += '<script src="//cdn.optimizely.com/js/' + appConfig.APP.OPTIMIZELY_TRACKING_ID + '.js">' +
-          '</script>\n';
+        tagManager += '<script type="text/javascript" src=' +
+          '"//cdn.optimizely.com/js/' + appConfig.APP.OPTIMIZELY_TRACKING_ID + '.js"></script>\n';
       }
 
       return tagManager;

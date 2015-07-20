@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import sinon from 'sinon';
-import { initialize } from 'ember-cli-tag-manager/initializers/pageview';
+import { initialize } from '../../../initializers/pageview';
 import { module, test } from 'qunit';
 
 var container, application;
@@ -11,9 +11,6 @@ module('Unit | Initializer | pageview', {
       application = Ember.Application.create();
       container = application.__container__;
       application.deferReadiness();
-
-      // Make sure we are logging pageviews and events.
-      sinon.stub(application, 'get').withArgs('LOG_TRACKING').returns(true);
     });
   }
 });
@@ -37,26 +34,25 @@ test('it notifies the Google Analytics server of a pageview', function(assert) {
   });
 });
 
-test('it logs output to the console', function(assert) {
+test('it notifies Facebook of a pageview', function(assert) {
   initialize(container, application);
-  Ember.Logger.info = sinon.spy();
+  window.fbq = sinon.spy();
 
   var subject = Ember.Router.create();
   var called = assert.async();
 
   Ember.run(function() {
-    sinon.stub(subject, 'get').withArgs('url').returns('/');
-    subject.notifyGoogleAnalytics();
+    subject.notifyFacebook();
   });
 
   Ember.run.next(function() {
-    assert.ok(Ember.Logger.info.calledOnce);
-    assert.ok(Ember.Logger.info.calledWith('Tracking Google Analytics pageview:', '/'));
+    assert.ok(window.fbq.calledOnce);
+    assert.ok(window.fbq.calledWith('track', 'PageView'));
     called();
   });
 });
 
-test('it notifies inspectlet of a pageview', function(assert) {
+test('it notifies Inspectlet of a pageview', function(assert) {
   initialize(container, application);
   window.__insp = { push: sinon.spy() };
 
@@ -74,7 +70,7 @@ test('it notifies inspectlet of a pageview', function(assert) {
   });
 });
 
-test('it notifies optimizely of a pageview', function(assert) {
+test('it notifies Optimizely of a pageview', function(assert) {
   initialize(container, application);
   window.optimizely = { push: sinon.spy() };
 

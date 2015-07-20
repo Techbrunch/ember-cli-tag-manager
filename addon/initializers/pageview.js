@@ -40,6 +40,20 @@ export function initialize(container, application) {
 
     /*
      * Push the page transition to
+     * Facebook.
+     *
+     * @method notifyFacebook
+     */
+    notifyFacebook: Ember.on('didTransition', function() {
+      Ember.run.once(this, function() {
+        if(typeof window.fbq !== 'undefined') {
+          window.fbq('track', 'PageView');
+        }
+      });
+    }),
+
+    /*
+     * Push the page transition to
      * Inspectlet.
      *
      * @method notifyInspectlet

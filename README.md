@@ -11,8 +11,9 @@ This addon injects several common and useful third-party JavaScript tags and tra
 * [Google E-Commerce](http://www.google.com/analytics/)
 * [Google Enhanced E-Commerce](http://www.google.com/analytics/)
 * [Google Adwords Conversion Tracking](https://www.google.co.uk/adwords/)
-* [Bing Analytics](https://www.bing.com/webmaster/)
-* [Facebook](https://www.facebook.com/)
+* [Bing Universal Event Tracking](https://bingads.microsoft.com/)
+* [Facebook Custom Audience Pixel](https://business.facebook.com/)
+* [Facebook Conversion Tracking](https://business.facebook.com/)
 * [Inspectlet](https://www.inspectlet.com/)
 * [Optimizely](https://www.optimizely.com/)
 
@@ -20,12 +21,12 @@ This addon injects several common and useful third-party JavaScript tags and tra
 
 From within your Ember CLI project directory run:
 ```
-ember install:addon ember-cli-tag-manager
+ember install ember-cli-tag-manager
 ```
 
 ## Usage
 
-This addon imposes several initialisers to extend the functionality of some core ember objects. These objects include the default `ActionHandler` to fire off events to the Google Analytics engine; and the `Router` to fire off page views to Google, Inspectlet and Optimizely.
+This addon imposes several initialisers to extend the functionality of some core ember objects. These objects include the default `ActionHandler` to fire off events to the Google Analytics engine; and the `Router` to fire off page views to Google, Facebook, Inspectlet and Optimizely.
 
 It is not necessary to explicitly differ from normal ember implementation to use this addon. Each of the functions that have been implemented to extend the core objects will run automatically or as the result of sending an action.
 
@@ -38,7 +39,7 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   redirect: function() {
     this.send('closeModals'); // This will fire an event off to Google.
-    this.transitionTo('news'); // This will fire a pageview off to Google, Inspectlet and Optimizely.
+    this.transitionTo('news'); // This will fire a pageview off to Google, Facebook, Inspectlet and Optimizely.
   }
 });
 ```
@@ -53,7 +54,8 @@ Of course you do not have to use all the JavaScript tags and tracking codes offe
 * `GOOGLE_ENHANCED_ECOMMERCE`
 * `GOOGLE_ADWORDS_CONVERSION_TRACKING_ID`
 * `BING_TRACKING_ID`
-* `FACEBOOK_TRACKING_ID`
+* `FACEBOOK_CUSTOM_AUDIENCES_TRACKING_ID`
+* `FACEBOOK_CONVERSION_TRACKING_ID`
 * `FACEBOOK_APP_ID`
 * `INSPECTLET_TRACKING_ID`
 * `OPTIMIZELY_TRACKING_ID`
@@ -69,8 +71,8 @@ module.exports = function(environment) {
     ...
     APP: {
       GOOGLE_TRACKING_ID: 'UA-12345678-9',
-      ENV.APP.GOOGLE_REMARKETING = true;
-      ENV.APP.GOOGLE_ECOMMERCE = true;
+      GOOGLE_REMARKETING: true,
+      GOOGLE_ECOMMERCE: true
     },
     ...
 });
