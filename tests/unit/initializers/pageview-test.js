@@ -3,20 +3,20 @@ import sinon from 'sinon';
 import { initialize } from '../../../initializers/pageview';
 import { module, test } from 'qunit';
 
-var container, application;
+var registry, application;
 
 module('Unit | Initializer | pageview', {
   beforeEach: function() {
     Ember.run(function() {
       application = Ember.Application.create();
-      container = application.__container__;
+      registry = application.registry;
       application.deferReadiness();
     });
   }
 });
 
 test('it notifies the Google Analytics server of a pageview', function(assert) {
-  initialize(container, application);
+  initialize(registry, application);
   window.ga = sinon.spy();
 
   var subject = Ember.Router.create();
@@ -35,7 +35,7 @@ test('it notifies the Google Analytics server of a pageview', function(assert) {
 });
 
 test('it notifies Bing of a pageview', function(assert) {
-  initialize(container, application);
+  initialize(registry, application);
   window.uetq = { push: sinon.spy() };
 
   var subject = Ember.Router.create();
@@ -53,7 +53,7 @@ test('it notifies Bing of a pageview', function(assert) {
 });
 
 test('it notifies Facebook of a pageview', function(assert) {
-  initialize(container, application);
+  initialize(registry, application);
   window.fbq = sinon.spy();
 
   var subject = Ember.Router.create();
@@ -71,7 +71,7 @@ test('it notifies Facebook of a pageview', function(assert) {
 });
 
 test('it notifies Inspectlet of a pageview', function(assert) {
-  initialize(container, application);
+  initialize(registry, application);
   window.__insp = { push: sinon.spy() };
 
   var subject = Ember.Router.create();
@@ -89,7 +89,7 @@ test('it notifies Inspectlet of a pageview', function(assert) {
 });
 
 test('it notifies Optimizely of a pageview', function(assert) {
-  initialize(container, application);
+  initialize(registry, application);
   window.optimizely = { push: sinon.spy() };
 
   var subject = Ember.Router.create();

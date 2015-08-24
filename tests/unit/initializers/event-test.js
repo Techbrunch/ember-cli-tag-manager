@@ -3,20 +3,20 @@ import sinon from 'sinon';
 import { initialize } from '../../../initializers/event';
 import { module, test } from 'qunit';
 
-var container, application;
+var registry, application;
 
 module('Unit | Initializer | event', {
   beforeEach: function() {
     Ember.run(function() {
       application = Ember.Application.create();
-      container = application.__container__;
+      registry = application.registry;
       application.deferReadiness();
     });
   }
 });
 
 test('it notifies the Google Analytics server of an event', function(assert) {
-  initialize(container, application);
+  initialize(registry, application);
   window.ga = sinon.spy();
 
   var ActionableObject = Ember.Object.extend(Ember.ActionHandler);
