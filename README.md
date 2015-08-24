@@ -39,7 +39,7 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   redirect: function() {
     this.send('closeModals'); // This will fire an event off to Google.
-    this.transitionTo('news'); // This will fire a pageview off to Google, Facebook, Inspectlet and Optimizely.
+    this.transitionTo('news'); // This will fire a pageview off to Google, Bing, Facebook, Inspectlet and Optimizely.
   }
 });
 ```

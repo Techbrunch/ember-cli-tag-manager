@@ -34,6 +34,24 @@ test('it notifies the Google Analytics server of a pageview', function(assert) {
   });
 });
 
+test('it notifies Bing of a pageview', function(assert) {
+  initialize(container, application);
+  window.uetq = { push: sinon.spy() };
+
+  var subject = Ember.Router.create();
+  var called = assert.async();
+
+  Ember.run(function() {
+    subject.notifyBing();
+  });
+
+  Ember.run.next(function() {
+    assert.ok(window.uetq.push.calledOnce);
+    assert.ok(window.uetq.push.calledWith('pageLoad'));
+    called();
+  });
+});
+
 test('it notifies Facebook of a pageview', function(assert) {
   initialize(container, application);
   window.fbq = sinon.spy();

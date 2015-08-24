@@ -28,12 +28,30 @@ export function initialize(container, application) {
      */
     notifyGoogleAnalytics: Ember.on('didTransition', function() {
       Ember.run.once(this, function() {
-        if(logTracking) {
+        if (logTracking) {
           Ember.Logger.info('Tracking Google Analytics pageview:', this.get('url'));
         }
 
-        if(typeof window.ga !== 'undefined') {
+        if (typeof window.ga !== 'undefined') {
           window.ga('send', 'pageview', { page: this.get('url'), title: this.get('url') });
+        }
+      });
+    }),
+
+    /*
+     * Push the page transition to the
+     * Bing analytics engine.
+     *
+     * @method notifyBing
+     */
+    notifyBing: Ember.on('didTransition', function() {
+      Ember.run.once(this, function() {
+        if (logTracking) {
+          Ember.Logger.info('Tracking Bing pageview:', this.get('url'));
+        }
+
+        if (typeof window.uetq !== 'undefined') {
+          window.uetq.push('pageLoad');
         }
       });
     }),
@@ -46,7 +64,7 @@ export function initialize(container, application) {
      */
     notifyFacebook: Ember.on('didTransition', function() {
       Ember.run.once(this, function() {
-        if(typeof window.fbq !== 'undefined') {
+        if (typeof window.fbq !== 'undefined') {
           window.fbq('track', 'PageView');
         }
       });
@@ -60,7 +78,7 @@ export function initialize(container, application) {
      */
     notifyInspectlet: Ember.on('didTransition', function() {
       Ember.run.once(function() {
-        if(typeof window.__insp !== 'undefined') {
+        if (typeof window.__insp !== 'undefined') {
           window.__insp.push(['virtualPage']);
         }
       });
@@ -74,7 +92,7 @@ export function initialize(container, application) {
      */
     notifyOptimizely: Ember.on('didTransition', function() {
       Ember.run.once(function() {
-        if(typeof window.optimizely !== 'undefined') {
+        if (typeof window.optimizely !== 'undefined') {
           window.optimizely.push(['activate']);
         }
       });

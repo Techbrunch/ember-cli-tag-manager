@@ -28,14 +28,14 @@ export function initialize(container, application) {
     send: function() {
       this._super.apply(this, arguments);
 
-      if(logTracking) {
+      if (logTracking) {
         Ember.Logger.info('Tracking Google Analytics event:', JSON.stringify([].slice.call(arguments)));
       }
 
       // Create a generic array of arguments to
       // send Google Analytics. Most actions
       // will be a result of clicking a button.
-      if(typeof window.ga !== 'undefined') {
+      if (typeof window.ga !== 'undefined') {
         var code = [].concat.apply(['send', 'event', 'button', 'click'], arguments);
         window.ga.apply(this, code);
       }
