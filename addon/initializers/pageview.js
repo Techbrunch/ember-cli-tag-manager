@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 /*
  * Reopen the 'Router' object to extend the
- * didTrnasition functionality. This is where
+ * didTransition functionality. This is where
  * we will intercept the normal behaviour and
  * push the page view to the Google Analytics
  * engine, Inspectlet and Optimizely.
